@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>smartAI Generator</title>
+</head>
+<body>
+    <h1>welcome!</h1>
+    <form action="/prompts" method="post">
+        <label for="prompt-input">enter your idea</label>
+        <input type="text" name="prompt-input" id="" placeholder="enter your idea">
+        <button type="submit">generate prompts</button>
+    </form>
+    <div id="output">
+        <% if (typeof response !== 'undefined') { %>
+            <h1>Output</h1>
+            <div class="prompt-container">
+                <h2>prompt 1</h2>
+                <br>
+                <pre class="prompt-text">
+                    <%= response["1"] %>
+                </pre>
+            </div>
+        <% } else if (typeof error !== 'undefined'){%>
+            <p class="error-message"><%= error %></p>
+        <% } %>
+    </div>
+</body>
+</html>
