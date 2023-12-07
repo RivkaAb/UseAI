@@ -20,11 +20,17 @@ app.get('/', (req, res) => {
 
 app.post('/prompts', (req, res) => {
     const runPrompt = async () => {
-        const user_input = req.body["prompt-input"];
+
+        const greetingType = req.body["greetingType"];
+        const recipient = req.body["recipient"];
+        const eventType = req.body["eventType"];
+        const age = req.body["age"];
+        const mood = req.body["mood"];
+
         const prompt = `
-        supply 3 ideas for ${user_input}.
+        supply 3 ideas for ${greetingType} to ${recipient} on the occasion of his ${eventType} age ${age} in a ${mood} atmosphere.
         don't include in the response "creating", "creating an ai", "ai".
-        also retunt the response in a parseable JSON format like follows:
+        also return the response in a parseable JSON format like follows:
         {
             "1":"...",
             "2":"...",
@@ -34,7 +40,7 @@ app.post('/prompts', (req, res) => {
         const response = await openai.createCompletion({
             model: "text-davinci-003",
             prompt: prompt,
-            max_tokens: 100,
+            max_tokens: 1000,
         });
 
         const parseableJSONresponse = response.data.choices[0].text;

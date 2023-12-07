@@ -1,19 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>smartAI Generator</title>
 </head>
+
 <body>
     <h1>welcome!</h1>
-    <form action="/prompts" method="post">
-        <label for="prompt-input">enter your idea</label>
-        <input type="text" name="prompt-input" id="" placeholder="enter your idea">
-        <button type="submit">generate prompts</button>
-    </form>
+    <div id="input">
+        <form action="/prompts" method="post">
+            <!-- <label for="prompt-input">enter your idea</label>
+            <input type="text" name="prompt-input" id="" placeholder="enter your idea"> -->
+            <% const fields = [ 
+            { name: 'greetingType', label: 'Write a' , options: ['long letter', 'short letter', 'poem' ], if: true }, 
+            { name: 'recipient', label: 'to' , type: 'text', placeholder: 'whom?', if: true },
+            { name: 'eventType', label: 'on the occasion of his', options: ['birthday', 'birth of a baby' , 'wedding' ], if: true},
+            { name: 'age', label: 'age' , type: 'number', placeholder: '', if: true },
+            { name: 'mood' , label: 'in a' , options: ['happy', 'sad' , 'entertaining' ], if: true } ]; %>
+            <!--document.getElementById('eventType').value === 'birthday'-->
+            <% fields.forEach(field=> { 
+                    if (field.if) { %>
+                <label for="<%= field.name %>">
+                    <%= field.label %>:
+                </label>
+
+                <% if (field.options) { %>
+                    <select id="<%= field.name %>" name="<%= field.name %>">
+                        <% field.options.forEach(option=> { %>
+                            <option value="<%= option %>">
+                                <%= option %>
+                            </option>
+                        <% }); %>
+                    </select>
+                <% } else { %>
+                    <input type="<%= field.type %>" id="<%= field.name %>" name="<%= field.name %>" placeholder="<%= field.placeholder %>">
+                <% } } }); %>
+                <label>atmosphere</label>
+                <br><br>
+                <button type="submit">generate greeting</button>
+        </form>
+    </div>
     <div id="output">
-        <% if (typeof response !== 'undefined') { %>
+        <% if (typeof response !=='undefined' ) { %>
             <h1>Output</h1>
             <div class="prompt-container">
                 <h2>prompt 1</h2>
@@ -22,9 +52,12 @@
                     <%= response["1"] %>
                 </pre>
             </div>
-        <% } else if (typeof error !== 'undefined'){%>
-            <p class="error-message"><%= error %></p>
-        <% } %>
+            <% } else if (typeof error !=='undefined' ){%>
+                <p class="error-message">
+                    <%= error %>
+                </p>
+                <% } %>
     </div>
 </body>
+
 </html>
